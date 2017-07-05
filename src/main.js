@@ -9,6 +9,14 @@ import Overview from './components/Overview.vue';
 
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
+
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+
+import routes from './util/routes';
+const router = new VueRouter({ routes });
+
+// sample global filter
 Vue.filter('dateTransform', function (raw) {
     // console.log(this);  // is always undefined?
     // return this.$moment(raw).format('h:mm A');
@@ -44,5 +52,6 @@ new Vue({  // root instance
             this.movies = response.data;
         }, err => {console.log(err)} );
         this.$bus.$on( 'check-filter', checkFilter.bind(this) );  // note bind to establish this
-    }
+    },
+    router
 });
