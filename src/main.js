@@ -1,19 +1,24 @@
 import Vue from 'vue';
 import './style.scss';
 
+import moment from 'moment-timezone';
+moment.tz.setDefault("UTC");
+Object.defineProperty(Vue.prototype, '$moment', { get() { return this.$root.moment } })
+
 import MovieList from './components/MovieList.vue';
 import MovieFilter from './components/MovieFilter.vue';
 
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
 
-new Vue({
+new Vue({  // root instance
     el: '#app',
     data: {
         msg: 'Hello Suckas',
         genre: [],
         time: [],
-        movies: []
+        movies: [],
+        moment  // for using moment timezone, accessible in children via this.$moment
     },
     methods: {
         checkFilter(category, title, checked) {
