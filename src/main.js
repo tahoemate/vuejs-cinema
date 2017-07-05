@@ -16,6 +16,9 @@ Vue.filter('dateTransform', function (raw) {
     return 'howdy';
 });
 
+// import statement
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+import { checkFilter } from './util/bus'
 const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', { get() { return this.$root.bus } });
 
@@ -31,22 +34,10 @@ new Vue({  // root instance
         bus
     },
     methods: {
-        checkFilter(category, title, checked) {
-            // console.log( 'app - checkFilter ' + title );
-            if (checked) {
-                this[category].push(title); // pushes to genre or time array
-            } 
-            else {
-                let index = this[category].indexOf(title);  // returns -1 if not found
-                if (index >= 0) {
-                    this[category].splice(index,1);  // remove item at index
-                }
-            }
-        }
     },
     components: {
         MovieList,  // auto converts to movie-list
-        MovieFilter  // auto converts to movie-filter
+        MovieFilter  // auto converts to movie-filter 
     },
     created() {  // lifecycle hook
         // console.log(this.$bus);  
@@ -54,6 +45,6 @@ new Vue({  // root instance
             // console.log(response.data);
             this.movies = response.data;
         }, err => {console.log(err)} );
-        this.$bus.$on('check-filter', this.checkFilter )
+        this.$bus.$on( 'check-filter', checkFilter.bind(this) );  // note bind to establish this
     }
 });
