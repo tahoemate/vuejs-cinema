@@ -10,6 +10,11 @@ import MovieFilter from './components/MovieFilter.vue';
 
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
+Vue.filter('dateTransform', function (raw) {
+    // console.log(this);  // is always undefined?
+    // return this.$moment(raw).format('h:mm A');
+    return 'howdy';
+});
 
 new Vue({  // root instance
     el: '#app',
@@ -18,13 +23,14 @@ new Vue({  // root instance
         genre: [],
         time: [],
         movies: [],
-        moment  // for using moment timezone, accessible in children via this.$moment
+        moment,  // for using moment timezone, accessible in children via this.$moment
+        day: moment()
     },
     methods: {
         checkFilter(category, title, checked) {
             // console.log( 'app - checkFilter ' + title );
             if (checked) {
-                this[category].push(title);
+                this[category].push(title); // pushes to genre or time array
             } 
             else {
                 let index = this[category].indexOf(title);  // returns -1 if not found

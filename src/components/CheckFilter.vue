@@ -10,13 +10,13 @@
     data () {
         return { checked: false };
     },
-    props: ['title'],
+    props: ['title', 'category'],
     template: ``,
     methods: {
         checkFilter () {
-            console.log('check-filter check-filter');
+            console.log('check-filter check-filter: ' + this.category);
             this.checked = !this.checked;
-            this.$emit('check-filter', 'genre', this.title, this.checked);
+            this.$emit('check-filter', this.category, this.title, this.checked);
         }
     }
 }

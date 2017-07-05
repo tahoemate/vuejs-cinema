@@ -1,7 +1,10 @@
 <template>
     <div id="movie-list">
         <div v-if="filteredMovies.length">
-            <movie-item v-for="movie in filteredMovies" v-bind:movie="movie.movie" v-bind:sessions="movie.sessions"></movie-item>
+            <movie-item v-for="movie in filteredMovies" 
+                v-bind:movie="movie.movie" 
+                v-bind:sessions="movie.sessions"
+                v-bind:day="day"></movie-item>
         </div>
         <div v-else-if="movies.length" class="no-results">
             No results.
@@ -13,11 +16,14 @@
 </template>
 
 <script>
+    import times from '../util/times';
     import genres from '../util/genres';
     import MovieItem from './MovieItem.vue';
 
     export default { 
-        props: ['genre', 'time', 'movies'],
+        // genre: list of checked genres frmom movieFilter
+        // time: list of checked time periods from movieFilter
+        props: ['genre', 'time', 'movies', 'day'],
         components: {
             MovieItem
         },
@@ -33,11 +39,37 @@
                     }
                 });
                 return matched;
+            },
+            movieTimeFilter(session) {
+                let aout = true;
+                console.log( session );
+                if ( !this.day.isSame(this.$moment(session.time), 'day')) {
+                    console.log('false wrong day');
+                    aout = false;
+                }
+                else if(this.time.length != 1) {
+                    console.log('true on time length');
+                }
+                else if(this.time[0] == times.BEFORE_6PM) {  // before 6
+                    console.log(this.$moment(session.time).hour());
+                    aout = this.$moment(session.time).hour() < 18;
+                    if (aout) console.log('true before 6');
+                }
+                else { // after 6 pm
+                    console.log(this.$moment(session.time).hour());
+                    aout = this.$moment(session.time).hour() >= 18;
+                    if (aout) console.log('true after 6');
+                }
+                return aout;
             }
         },
         computed: {
             filteredMovies() {
-                return this.movies.filter(this.movieGenreFilter);
+                // filter: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+                // find: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+                return this.movies
+                    .filter( this.movieGenreFilter )  // shorthand: movie => this.movieGenreFilter(movie)
+                    .filter( movie => movie.sessions.find( session => this.movieTimeFilter(session)) );
             }
         },
         created() {
