@@ -4,10 +4,11 @@
             <movie-item v-for="movie in filteredMovies" 
                 v-bind:movie="movie.movie" 
                 v-bind:sessions="movie.sessions"
-                v-bind:day="day"></movie-item>
+                v-bind:day="day"
+                v-bind:time="time"></movie-item>
         </div>
         <div v-else-if="movies.length" class="no-results">
-            No results.
+            {{ noResults }}
         </div>
         <div v-else  class="no-results">
             Loading...
@@ -42,23 +43,23 @@
             },
             movieTimeFilter(session) {
                 let aout = true;
-                console.log( session );
+                // console.log( session );
                 if ( !this.day.isSame(this.$moment(session.time), 'day')) {
-                    console.log('false wrong day');
+                    // console.log('false wrong day');
                     aout = false;
                 }
                 else if(this.time.length != 1) {
-                    console.log('true on time length');
+                    // console.log('true on time length');
                 }
                 else if(this.time[0] == times.BEFORE_6PM) {  // before 6
-                    console.log(this.$moment(session.time).hour());
+                    // console.log(this.$moment(session.time).hour());
                     aout = this.$moment(session.time).hour() < 18;
-                    if (aout) console.log('true before 6');
+                    // if (aout) console.log('true before 6');
                 }
                 else { // after 6 pm
-                    console.log(this.$moment(session.time).hour());
+                    // console.log(this.$moment(session.time).hour());
                     aout = this.$moment(session.time).hour() >= 18;
-                    if (aout) console.log('true after 6');
+                    // if (aout) console.log('true after 6');
                 }
                 return aout;
             }
@@ -70,6 +71,10 @@
                 return this.movies
                     .filter( this.movieGenreFilter )  // shorthand: movie => this.movieGenreFilter(movie)
                     .filter( movie => movie.sessions.find( session => this.movieTimeFilter(session)) );
+            },
+            noResults() {
+                let msg = this.time.concat(this.genre).join(', ')
+                return `No results for ${msg}`;
             }
         },
         created() {

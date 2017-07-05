@@ -16,6 +16,9 @@ Vue.filter('dateTransform', function (raw) {
     return 'howdy';
 });
 
+const bus = new Vue();
+Object.defineProperty(Vue.prototype, '$bus', { get() { return this.$root.bus } });
+
 new Vue({  // root instance
     el: '#app',
     data: {
@@ -24,7 +27,8 @@ new Vue({  // root instance
         time: [],
         movies: [],
         moment,  // for using moment timezone, accessible in children via this.$moment
-        day: moment()
+        day: moment(),
+        bus
     },
     methods: {
         checkFilter(category, title, checked) {
@@ -45,10 +49,11 @@ new Vue({  // root instance
         MovieFilter  // auto converts to movie-filter
     },
     created() {  // lifecycle hook
-        // console.log(this.$http);  // came in from vue-resource
+        // console.log(this.$bus);  
         this.$http.get('/api').then( response => {
-            console.log(response.data);
+            // console.log(response.data);
             this.movies = response.data;
         }, err => {console.log(err)} );
+        this.$bus.$on('check-filter', this.checkFilter )
     }
 });
