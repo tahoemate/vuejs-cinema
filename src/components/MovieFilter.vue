@@ -22,7 +22,7 @@
             }
         },
         components: {
-            CheckFilter
+            CheckFilter   // converts to component check-filter
         }
     }    
 </script>

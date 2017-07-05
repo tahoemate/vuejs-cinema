@@ -1,28 +1,29 @@
 <template>
     <div id="movie-list">
-        <div v-for="movie in filteredMovies" class="movie">{{movie.title}}</div>
+        <movie-item v-for="movie in filteredMovies" v-bind:movie="movie.movie"></movie-item>
     </div>
 </template>
 
 <script>
     import genres from '../util/genres';
+    import MovieItem from './MovieItem.vue';
 
     export default { 
-        data() {
-            return { 
-                movies: [
-                    {title: 'Destry Rides Again', genre: genres.ANIMATION },
-                    {title: 'Blue Angle', genre: genres.COMEDY},
-                    {title: 'Seven Sinners', genre: genres.COMEDY}
-                ]
-            };
+        props: ['genre', 'time', 'movies'],
+        components: {
+            MovieItem
         },
-        props: ['genre', 'time'],
         methods: {
             movieGenreFilter(movie) {
                 if ( !this.genre.length ) return true;
-                let aout = this.genre.find( genre => movie.genre === genre );
-                return aout;
+                let movieGenres = movie.movie.Genre.split(', ')
+                let matched = true;
+                this.genre.forEach(genre => {
+                    if (movieGenres.indexOf(genre) === -1 ) {
+                        matched = false;
+                    }
+                });
+                return matched;
             }
         },
         computed: {
