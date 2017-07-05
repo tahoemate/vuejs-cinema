@@ -5,8 +5,7 @@ import moment from 'moment-timezone';
 moment.tz.setDefault("UTC");
 Object.defineProperty(Vue.prototype, '$moment', { get() { return this.$root.moment } })
 
-import MovieList from './components/MovieList.vue';
-import MovieFilter from './components/MovieFilter.vue';
+import Overview from './components/Overview.vue';
 
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
@@ -36,8 +35,7 @@ new Vue({  // root instance
     methods: {
     },
     components: {
-        MovieList,  // auto converts to movie-list
-        MovieFilter  // auto converts to movie-filter 
+        Overview
     },
     created() {  // lifecycle hook
         // console.log(this.$bus);  
