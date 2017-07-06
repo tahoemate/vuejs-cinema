@@ -1,7 +1,12 @@
 <template>
-    <div id="detail" v-if="movie">
-        <!-- Uses computed field movie -->
-        <movie-item v-bind:movie="movie" v-bind:sessions="[]"></movie-item>
+    <div>
+        <div id="detail" v-if="getMovie">
+            <!-- Uses computed field movie -->
+            <movie-item v-bind:movie="getMovie" v-bind:sessions="[]"></movie-item>
+        </div>
+        <div v-else>
+            <h3>No movie found matching {{this.$route.params.id}}</h3>
+        </div>
     </div>
 </template>
 
@@ -11,7 +16,7 @@
     export default {
         props: ['movies'],
         computed: {
-            movie() {
+            getMovie() {
                 // console.log( 'param: '+this.$route.params.id+'  '+this.movies.length);
                 let aout = this.movies.find( movie => movie.id === this.$route.params.id);
                 // console.log(aout);
