@@ -1,8 +1,34 @@
 <template>
     <div>
         <div id="detail" v-if="getMovie">
-            <!-- Uses computed field movie -->
-            <movie-item v-bind:movie="getMovie" v-bind:sessions="[]"></movie-item>
+            <!-- Uses computed field getMmovie -->
+            <movie-item v-bind:movie="getMovie">
+                <div class="movie-details">
+                    <p class="movie-genre">{{ getMovie.Genre }}</p>
+                    <p class="movie-plot">{{ getMovie.Plot }}</p>
+                    <table>
+                        <tr>
+                            <td>Released date:</td>
+                            <td>{{ getMovie.Released}}</td>
+                        </tr>
+                        <tr>
+                            <td>Running time:</td>
+                            <td>{{ getMovie.Runtime}}</td>
+                        </tr>
+                        <tr>
+                            <td>Director:</td>
+                            <td>{{ getMovie.Director}}</td>
+                        </tr>
+                        <tr>
+                            <td>Cast:</td>
+                            <td>{{ getMovie.Actors}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </movie-item>
+            <div class="home">
+                <router-link v-bind:to="{name: 'home'}">Back to results</router-link>
+            </div>
         </div>
         <div v-else>
             <h3>No movie found matching {{this.$route.params.id}}</h3>
