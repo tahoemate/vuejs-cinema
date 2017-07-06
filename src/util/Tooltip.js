@@ -1,7 +1,7 @@
 
-// import Vue from 'vue';
 import {addClass, removeClass} from './helpers';
 
+// keep handlers keep in global scope
 function mouseOverHandler(ev) { 
     let span = ev.target.nextSibling;  // get tooltip span next to div
     // console.log(span.innerHTML);
