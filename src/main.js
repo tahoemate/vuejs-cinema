@@ -43,7 +43,6 @@ new Vue({  // root instance
     methods: {
     },
     components: {
-        Overview
     },
     created() {  // lifecycle hook
         // console.log(this.$bus);  

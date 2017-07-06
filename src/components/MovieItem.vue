@@ -5,7 +5,7 @@
         </div>
         <div class="movie-col-right">
             <div class="movie-title">
-                <router-link v-bind:to="{ name: 'movie'}">
+                <router-link v-bind:to="{ name: 'movie', params: {id: movie.imdbID}}">
                     <h2>{{ movie.Title }}</h2>
                 </router-link>
                 <span class="movie-rating">{{ movie.Rated }}</span>
@@ -48,12 +48,12 @@
                 else if(this.time[0] == times.BEFORE_6PM) {  // before 6
                     // console.log(this.$moment(session.time).hour());
                     aout = this.$moment(session.time).hour() < 18;
-                    if (aout) console.log('true before 6');
+                    // if (aout) console.log('true before 6');
                 }
                 else { // after 6 pm
                     // console.log(this.$moment(session.time).hour());
                     aout = this.$moment(session.time).hour() >= 18;
-                    if (aout) console.log('true after 6');
+                    // if (aout) console.log('true after 6');
                 }
                 return aout;
             }            
