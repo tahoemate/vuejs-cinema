@@ -25,7 +25,7 @@ Vue.filter('dateTransform', function (raw) {
 
 // import statement
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
-import { checkFilter } from './util/bus'
+import { checkFilter, setDay } from './util/bus'
 const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', { get() { return this.$root.bus } });
 
@@ -50,7 +50,9 @@ new Vue({  // root instance
             // console.log(response.data);
             this.movies = response.data;
         }, err => {console.log(err)} );
-        this.$bus.$on( 'check-filter', checkFilter.bind(this) );  // note bind to establish this
+        this.$bus.$on( 'check-filter', checkFilter.bind(this) );  // note bind to establish 'this', hidden arguments category, title, checked
+        this.$bus.$on( 'set-day', setDay.bind(this));  // invoked in DaySelect
+        // this.$bus.$on( 'set-day', day => this.day = day );  // (alternate syntax)
     },
     router
 });
