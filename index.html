@@ -7,13 +7,13 @@
     <link rel="icon" href="/public/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
     <style>
-        [v-cloak] {
+        [v-cloak] {  /* has to be here, not in sass file, since be loaded before javascript */
             display: none !important;
         }
     </style>
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <div id="title">
         <router-link v-bind:to="{ name: 'home'}"><img src="/public/logo.png"></router-link>
         <h1>Vue.js Cinema</h1>
